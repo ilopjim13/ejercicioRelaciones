@@ -10,10 +10,12 @@ import org.example.instituto.Instituto
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 fun main() {
+    val em = EntityManagerFact
+
     val instituto = Instituto("IES Rafael Alberti", "Calle", 500, listOf(), listOf(), Director("12345678H", "Pepe", null, null), listOf(), null)
     val dpto = Departamento("Tecnologia", "Hace tecnologia", instituto, null)
 
-    insertTable(dpto)
+    insertTable(dpto, em)
 
 }
 
@@ -22,12 +24,43 @@ fun main() {
     Exceptions = ¿Se puede hacer rollback?
     EntityManagerFactory creandose muchas veces = ¿como lo solucionariais?
  */
-fun insertTable(dpto: Departamento) {
-    val emf: EntityManagerFactory = Persistence.createEntityManagerFactory("myunidadsql")
-    val em: EntityManager = emf.createEntityManager()
-    em.transaction.begin()
+fun insertTable(dpto: Departamento, em: EntityManagerFact) {
+    em.begin()
     em.persist(dpto)
-    em.transaction.commit()
+    em.commit()
     em.close()
+}
 
+
+fun selectTable() {
+
+}
+
+fun updateTable() {
+
+}
+
+fun deleteTable() {
+
+}
+
+object EntityManagerFact{
+    private val em: EntityManager = Persistence.createEntityManagerFactory("myunidadsql").createEntityManager()
+
+    fun commit() {
+        em.transaction.commit()
+    }
+
+    fun begin() {
+        em.transaction.begin()
+
+    }
+
+    fun persist(dpto:Any) {
+        em.persist(dpto)
+    }
+
+    fun close() {
+        em.close()
+    }
 }
